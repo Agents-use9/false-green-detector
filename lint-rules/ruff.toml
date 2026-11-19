@@ -1,0 +1,36 @@
+# Python 假綠燈檢測 Lint 規則配置範本（適用於 Ruff / Flake8）
+# 
+# 核心目標：
+# 透過靜態分析防止測試檔案中出現永遠為真、空斷言或無效異常捕獲
+
+[lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # Pyflakes
+    "B",    # flake8-bugbear（捕獲潛在 Bug）
+    "PT",   # flake8-pytest-style（專為測試套件打造之防護）
+    "SIM",  # flake8-simplify
+]
+
+[lint.flake8-pytest-style]
+# -----------------------------------------------------------------------------
+# 1. PT015: 禁止斷言永遠為真（assert True）或斷言常數
+# 支援狀態：【已核實】Ruff 官方內建 flake8-pytest-style 規則
+# -----------------------------------------------------------------------------
+fixture-parentheses = true
+
+# -----------------------------------------------------------------------------
+# 2. 針對假綠燈常見反模式的攔截規則表：
+# - PT015: assert always passes / fails (例如 assert True 或 assert 1 == 1)
+# - PT018: 複合斷言警告 (assert a and b，防止其中一者短路造成假綠燈)
+# - B011: 禁止在測試或核心代碼中使用裸 assert False (應使用 pytest.fail() 或明確異常)
+# - PT011: pytest.raises 必須具備 match 參數，防止只要有拋出任何異常就盲目算過！
+# -----------------------------------------------------------------------------
+
+[lint.per-file-ignores]
+# 針對非測試檔案放寬 pytest 規則
+"**/tests/**/*.py" = [
+    # 允許在測試中使用較長的變數名稱以精確描述業務行為
+    "E501",
+]

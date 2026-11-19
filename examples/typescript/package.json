@@ -1,0 +1,14 @@
+{
+  "name": "false-green-detector-ts-example",
+  "version": "1.0.0",
+  "description": "假綠燈檢測範例（TypeScript / Node.js 內建測試運行器）",
+  "type": "module",
+  "scripts": {
+    "test:fake-green": "node --test test/fake-green.test.ts",
+    "test:verify-bugs": "node --test test/verify-bugs.test.ts",
+    "test:behavioral": "node --test test/behavioral.test.ts",
+    "test": "npm run test:behavioral"
+  },
+  "keywords": ["testing", "false-green", "vitest", "ai-tests"],
+  "license": "MIT"
+}
